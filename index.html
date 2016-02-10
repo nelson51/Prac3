@@ -28,17 +28,39 @@
 				<div class="box box1"><div id="latitude">Blah</div></div>
 				<div class="box box2"><div id="longitude">Blah</div></div>
 			</div>
+		</div>
 
-			<button onclick="myFunction()">Try it</button>
+			<div><button onclick="getLocation()">Try it</button></div>
+			
+			<div id="mapholder"></div>
 
 		<script>
-		function myFunction() {
+		
 			var x = document.getElementById("latitude");
 			var y = document.getElementById("longitude");
-			x.innerHTML = "lat";
-			y.innerHTML = "long";
 			
-}
+			
+			function getLocation() {
+				if (navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(showPosition);
+				} else { 
+					x.innerHTML = "Geolocation is not supported by this browser.";
+				}
+			}
+
+			function showPosition(position) {
+				x.innerHTML = "Latitude:<br>" + (position.coords.latitude).toFixed(5);  
+				y.innerHTML = "Longitude:<br>" + (position.coords.longitude).toFixed(5);	
+				
+				var latlon = position.coords.latitude + "," + position.coords.longitude;
+
+				var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="
+				+latlon+"&zoom=14&size=400x300&sensor=false";
+				document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
+			}
+			
+			
+		
 		</script>
 	</body>
 </html>
